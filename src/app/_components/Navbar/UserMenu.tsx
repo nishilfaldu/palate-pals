@@ -2,7 +2,7 @@
 
 import { SignOutButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 
 import MenuItem from "./MenuItem";
 import MenuItemDivider from "./MenuItemDivider";

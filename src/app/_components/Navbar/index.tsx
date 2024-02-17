@@ -3,10 +3,10 @@ import { Search } from "lucide-react";
 import Link from "next/link";
 
 import { CategoryNavigationMenu } from "./CategoryMenu";
+import { LogoSquare } from "./Logo";
 import { UserMenu } from "./UserMenu";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { LogoSquare } from "./Logo";
 
 
 
