@@ -30,6 +30,10 @@ export default defineSchema({
     name: v.string(),
     description: v.string(),
     address: v.string(),
+    country: v.string(),
+    city: v.string(),
+    zipCode: v.string(),
+    areaCode: v.string(),
     phoneNumber: v.string(),
     email: v.string(),
     website: v.optional(v.string()),
@@ -51,11 +55,11 @@ export default defineSchema({
   }).index("userId", ["userId"])
     .index("cuisineId", ["cuisineId"]),
 
-    restaurantCuisines: defineTable({
-        restaurantId: v.id("restaurants"),
-        cuisineId: v.id("cuisines"),
-    }).index("restaurantId", ["restaurantId"])
-        .index("cuisineId", ["cuisineId"]),
+  restaurantCuisines: defineTable({
+      restaurantId: v.id("restaurants"),
+      cuisineId: v.id("cuisines"),
+  }).index("restaurantId", ["restaurantId"])
+      .index("cuisineId", ["cuisineId"]),
 
 
   conversations: defineTable({

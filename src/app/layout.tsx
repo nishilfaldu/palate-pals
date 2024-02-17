@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
-import "./globals.css";
+import "@/app/globals.css"
 import ConvexClientProvider from "./_components/ConvexClientProvider";
 import { Navbar } from "./_components/Navbar";
 
