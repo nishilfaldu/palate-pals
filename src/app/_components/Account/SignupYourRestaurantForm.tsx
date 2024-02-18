@@ -21,6 +21,9 @@ import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
+import { useEdgeStore } from "@/lib/edgestore";
+import { useState } from "react";
+import Image from "next/image";
 
 
 
@@ -210,6 +213,9 @@ export function SignupYourRestaurantForm() {
     name: "urls",
     control: form.control,
   });
+  
+  const [file, setFile] = useState<File>();
+  const { edgestore } = useEdgeStore();
 
   function onSubmit(data: AccountFormValues) {
     console.log(data);
@@ -222,9 +228,19 @@ export function SignupYourRestaurantForm() {
       ),
     });
   }
+  
 
   return (
     <Form {...form}>
+      <div className="flex items-center justify-center">
+        {file && <Image src={URL.createObjectURL(file)} alt="uploading_image" width={400} height={400} className="rounded-lg bg-cover overflow-hidden"/>}
+      </div>
+     <Input
+        type="file"
+        onChange={(e) => {
+          setFile(e.target.files?.[0]);
+        }}
+      />
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         {/* name */}
         <FormField

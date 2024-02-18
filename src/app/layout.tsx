@@ -4,7 +4,8 @@ import { Inter } from "next/font/google";
 import "@/app/globals.css"
 import ConvexClientProvider from "./_components/ConvexClientProvider";
 import { Navbar } from "./_components/Navbar";
-
+import { Toaster as DefaultToaster } from "@/components/ui/toaster";
+import { EdgeStoreProvider } from "@/lib/edgestore";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -25,10 +26,12 @@ export default function RootLayout({
         <ConvexClientProvider>
           <Navbar/>
           <main className="m-20">
+          <EdgeStoreProvider>
             {children}
+          </EdgeStoreProvider>
           </main>
           {/* <Footer /> */}
-          {/* <DefaultToaster /> */}
+          <DefaultToaster />
         </ConvexClientProvider>
       </body>
     </html>
