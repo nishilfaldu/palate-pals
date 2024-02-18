@@ -24,6 +24,8 @@ import { cn } from "@/lib/utils";
 import { useEdgeStore } from "@/lib/edgestore";
 import { useState } from "react";
 import Image from "next/image";
+import { useMutation } from "convex/react";
+import { api } from "../../../../convex/_generated/api";
 
 
 
@@ -174,9 +176,13 @@ const accountFormSchema = z.object({
     .array(
       z.object({
         value: z.string().url({ message: "Please enter a valid URL." }),
+        type: z.string()
       })
     )
     .optional(),
+  address: z.string({
+    required_error: "Please enter an address.",
+  }),
 });
 
 type AccountFormValues = z.infer<typeof accountFormSchema>
@@ -193,12 +199,15 @@ const defaultValues: Partial<AccountFormValues> = {
     phoneNumber: "",
     cuisines: ["other"],
     urls: [
-    { value: "" },
-    { value: "" },
-    { value: "" },
-    { value: "" },
-    { value: "" },
+    { value: "", type: "website" },
+    { value: "", type: "linkedin" },
+    { value: "", type: "instagram" },
+    { value: "", type: "twitter"},
+    { value: "",  type: "facebook"},
+    { value: "", type: "youtube" },
+    { value: "", type: "tiktok" },
   ],
+  address: "",
 };
 
 
@@ -213,11 +222,11 @@ export function SignupYourRestaurantForm() {
     name: "urls",
     control: form.control,
   });
-  
+
   const [file, setFile] = useState<File>();
   const { edgestore } = useEdgeStore();
 
-  function onSubmit(data: AccountFormValues) {
+  async function onSubmit(data: AccountFormValues) {
     console.log(data);
     toast({
       title: "You submitted the following values:",
@@ -227,7 +236,24 @@ export function SignupYourRestaurantForm() {
         </pre>
       ),
     });
+
+    if (file) {
+      const res = await edgestore.publicFiles.upload({
+        file,
+        onProgressChange: (progress) => {
+          // you can use this to show a progress bar
+          console.log(progress);
+        },
+      });
+
+      console.log(res)
+
+      createRestaurant({...data, pictureUrl: res.url })
+
+    }
   }
+
+  const createRestaurant = useMutation(api.restaurants.createRestaurant)
   
 
   return (
@@ -261,7 +287,7 @@ export function SignupYourRestaurantForm() {
           )}
         />
 
-        {/* field */}
+        {/* email */}
         <FormField
           control={form.control}
           name="email"
@@ -278,8 +304,26 @@ export function SignupYourRestaurantForm() {
             </FormItem>
           )}
         />
+
+        {/* address */}
+        <FormField
+          control={form.control}
+          name="address"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Address</FormLabel>
+              <FormControl>
+                <Input placeholder="Your restaurant address" {...field} />
+              </FormControl>
+              <FormDescription>
+                This is the address that will be displayed on your restaurant profile
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         
-            {/* country */}
+        {/* country */}
         <FormField
           control={form.control}
           name="country"

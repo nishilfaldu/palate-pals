@@ -37,9 +37,12 @@ export default defineSchema({
     phoneNumber: v.string(),
     email: v.string(),
     website: v.optional(v.string()),
-    linkedIn: v.optional(v.string()),
+    linkedin: v.optional(v.string()),
     instagram: v.optional(v.string()),
     twitter: v.optional(v.string()),
+    facebook: v.optional(v.string()),
+    youtube: v.optional(v.string()),
+    tiktok: v.optional(v.string()),
     pictureUrl: v.string(),
   }).index("name", ["name"]),
 
